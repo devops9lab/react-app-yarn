@@ -42,6 +42,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-20.04
+    needs: [build]
     steps:
       - name: Download React build
         uses: actions/download-artifact@v2
