@@ -17,7 +17,7 @@ on:
         default: "Manual trigger"
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout 🛎️
@@ -33,6 +33,21 @@ jobs:
 
       - name: Build 🏗️
         run: yarn run build
+
+      - name: Upload React build
+        uses: actions/upload-artifact@v3
+        with:
+          name: react-build
+          path: build/
+
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Download React build
+        uses: actions/download-artifact@v2
+        with:
+          name: react-build
+          path: build/
 
       - name: Deploy to GH Pages 🚀
         if: ${{ github.ref == 'refs/heads/master' }}
